@@ -11,5 +11,5 @@ export class CreateConcertDto {
 
   @IsNumber()
   @Min(1)
-  seatTotal: number;
+  seat: number;
 }

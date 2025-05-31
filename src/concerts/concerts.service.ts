@@ -11,7 +11,7 @@ export class ConcertsService {
     const newConcert: Concert = {
       id: uuidv4(),
       ...createConcertDto,
-      seatsAvailable: createConcertDto.seatTotal,
+      seat: createConcertDto.seat,
     };
     this.concerts.push(newConcert);
     return newConcert;
