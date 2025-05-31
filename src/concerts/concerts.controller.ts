@@ -1,7 +1,9 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
+  Param,
   Post,
   UsePipes,
   ValidationPipe,
@@ -22,5 +24,10 @@ export class ConcertsController {
   @Get()
   findAll() {
     return this.concertsService.findAll();
+  }
+
+  @Delete(':id')
+  remove(@Param('id') id: string) {
+    return this.concertsService.remove(id);
   }
 }
