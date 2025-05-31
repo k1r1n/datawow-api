@@ -5,5 +5,6 @@ import { ConcertsService } from './concerts.service';
 @Module({
   controllers: [ConcertsController],
   providers: [ConcertsService],
+  exports: [ConcertsService],
 })
 export class ConcertsModule {}

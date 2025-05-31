@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { Concert, ConcertResponse } from './interfaces/concert.interface';
 import { CreateConcertDto } from './dto/create-concert.dto';
 import { v4 as uuidv4 } from 'uuid';
@@ -27,6 +27,15 @@ export class ConcertsService {
     };
   }
 
+  findOne(id: string): Concert {
+    const concert = this.concerts.find((c) => c.id === id);
+
+    if (!concert) {
+      throw new NotFoundException(`Concert with ID "${id}" not found`);
+    }
+    return concert;
+  }
+
   findAll(): ConcertResponse {
     return {
       data: {
@@ -52,5 +61,10 @@ export class ConcertsService {
       success: true,
       message: `Concert with ID "${id}" successfully deleted`,
     };
+  }
+
+  decreaseSeats(id: string): void {
+    const concert = this.findOne(id);
+    concert.seat--;
   }
 }
