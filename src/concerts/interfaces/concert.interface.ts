@@ -4,3 +4,11 @@ export interface Concert {
   description: string;
   seat: number;
 }
+
+export interface ConcertResponse {
+  data: {
+    list: Concert[];
+    totalSeats: number;
+  };
+  success: boolean;
+}
