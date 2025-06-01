@@ -1,12 +1,16 @@
 import { ConflictException, Injectable } from '@nestjs/common';
-import { Reservation } from './interfaces/reservation.interface';
+import {
+  Reservation,
+  ReservationLog,
+} from './interfaces/reservation.interface';
 import { CreateReservationDto } from './dto/create-reservation.dto';
 import { ConcertsService } from 'src/concerts/concerts.service';
 import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()
 export class ReservationsService {
-  private readonly reservations: Reservation[] = [];
+  private readonly activeReservations: Reservation[] = [];
+  private readonly reservationLogs: ReservationLog[] = [];
   constructor(private readonly concertsService: ConcertsService) {}
 
   create(createReservationDto: CreateReservationDto): Reservation {
@@ -21,7 +25,7 @@ export class ReservationsService {
 
     this.concertsService.decreaseSeats(concertId);
 
-    const existingReservation = this.reservations.find(
+    const existingReservation = this.activeReservations.find(
       (r) => r.concertId === concertId && r.userId === userId,
     );
     if (existingReservation) {
@@ -34,10 +38,20 @@ export class ReservationsService {
       id: uuidv4(),
       concertId,
       userId,
-      reservedAt: new Date(),
+      createdAt: new Date(),
     };
 
-    this.reservations.push(newReservation);
+    this.reservationLogs.unshift({
+      id: uuidv4(),
+      userId,
+      userName: userId,
+      concertId,
+      concertName: concert.name,
+      action: 'reserved',
+      timestamp: newReservation.createdAt,
+    });
+
+    this.activeReservations.push(newReservation);
 
     return newReservation;
   }
