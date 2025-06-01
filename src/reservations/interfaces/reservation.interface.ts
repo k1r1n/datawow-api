@@ -14,3 +14,13 @@ export interface ReservationLog {
   action: 'reserved' | 'cancelled';
   timestamp: Date;
 }
+
+export interface ReservationResponse {
+  data: Reservation[];
+  success: boolean;
+}
+
+export interface ReservationLogResponse {
+  data: ReservationLog[];
+  success: boolean;
+}
