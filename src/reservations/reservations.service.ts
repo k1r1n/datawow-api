@@ -8,7 +8,7 @@ import {
   ReservationLog,
 } from './interfaces/reservation.interface';
 import { CreateReservationDto } from './dto/create-reservation.dto';
-import { ConcertsService } from 'src/concerts/concerts.service';
+import { ConcertsService } from '../concerts/concerts.service';
 import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()
