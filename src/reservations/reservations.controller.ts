@@ -21,12 +21,27 @@ export class ReservationsController {
     return this.reservationsService.create(createReservationDto);
   }
 
+  @Get('all-reservations')
+  getAllReservations(): ReservationResponse {
+    return {
+      data: {
+        list: this.reservationsService.getAllReservations(),
+        total: this.reservationsService.getAllReservations().length,
+      },
+      success: true,
+    };
+  }
+
   @Get(':userId')
   getActiveReservationsForUser(
     @Param('userId') userId: string,
   ): ReservationResponse {
     return {
-      data: this.reservationsService.getActiveReservationsForUser(userId),
+      data: {
+        list: this.reservationsService.getActiveReservationsForUser(userId),
+        total:
+          this.reservationsService.getActiveReservationsForUser(userId).length,
+      },
       success: true,
     };
   }

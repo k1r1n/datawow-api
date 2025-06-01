@@ -59,4 +59,8 @@ export class ReservationsService {
   getActiveReservationsForUser(userId: string): Reservation[] {
     return this.activeReservations.filter((r) => r.userId === userId);
   }
+
+  getAllReservations(): Reservation[] {
+    return this.activeReservations;
+  }
 }

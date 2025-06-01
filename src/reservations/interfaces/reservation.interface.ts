@@ -16,7 +16,10 @@ export interface ReservationLog {
 }
 
 export interface ReservationResponse {
-  data: Reservation[];
+  data: {
+    list: Reservation[];
+    total: number;
+  };
   success: boolean;
 }
 
