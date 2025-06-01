@@ -1,4 +1,8 @@
-import { ConflictException, Injectable } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import {
   Reservation,
   ReservationLog,
@@ -62,5 +66,39 @@ export class ReservationsService {
 
   getAllReservations(): Reservation[] {
     return this.activeReservations;
+  }
+
+  getCancelledReservations(): number {
+    return this.reservationLogs.filter((r) => r.action === 'cancelled').length;
+  }
+
+  cancelReservation(reservationId: string, userId: string) {
+    const reservationIndex = this.activeReservations.findIndex(
+      (r) => r.id === reservationId && r.userId === userId,
+    );
+
+    if (reservationIndex === -1) {
+      throw new NotFoundException(
+        `Active reservation with ID "${reservationId}" not found for this user.`,
+      );
+    }
+
+    const reservationToCancel = this.activeReservations[reservationIndex];
+    const concert = this.concertsService.findOne(reservationToCancel.concertId);
+
+    this.concertsService.increaseSeats(reservationToCancel.concertId);
+    this.activeReservations.splice(reservationIndex, 1);
+
+    this.reservationLogs.unshift({
+      id: uuidv4(),
+      userId: reservationToCancel.userId,
+      userName: reservationToCancel.userId,
+      concertId: reservationToCancel.concertId,
+      concertName: concert.name,
+      action: 'cancelled',
+      timestamp: new Date(),
+    });
+
+    return { message: 'Reservation successfully cancelled.' };
   }
 }

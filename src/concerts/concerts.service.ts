@@ -1,4 +1,4 @@
-import { Injectable, Logger, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { Concert, ConcertResponse } from './interfaces/concert.interface';
 import { CreateConcertDto } from './dto/create-concert.dto';
 import { v4 as uuidv4 } from 'uuid';
@@ -66,5 +66,10 @@ export class ConcertsService {
   decreaseSeats(id: string): void {
     const concert = this.findOne(id);
     concert.seat--;
+  }
+
+  increaseSeats(id: string): void {
+    const concert = this.findOne(id);
+    concert.seat++;
   }
 }

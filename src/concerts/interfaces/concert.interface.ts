@@ -9,6 +9,8 @@ export interface ConcertResponse {
   data: {
     list: Concert[];
     totalSeats: number;
+    totalReservations?: number;
+    totalCancelledReservations?: number;
   };
   success: boolean;
 }
