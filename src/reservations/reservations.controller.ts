@@ -37,8 +37,8 @@ export class ReservationsController {
     };
   }
 
-  @Get(':userId')
-  getActiveReservationsForUser(
+  @Get('user/:userId')
+  getActiveReservationsUser(
     @Param('userId') userId: string,
   ): ReservationResponse {
     return {
@@ -63,7 +63,20 @@ export class ReservationsController {
   @Get('cancelled')
   getCancelledReservations() {
     return {
-      total: this.reservationsService.getCancelledReservations(),
+      data: {
+        total: this.reservationsService.getCancelledReservations(),
+      },
+      success: true,
+    };
+  }
+
+  @Get('history')
+  getAdminReservationHistory(): ReservationLogResponse {
+    return {
+      data: {
+        list: this.reservationsService.getReservationLogs(),
+        total: this.reservationsService.getReservationLogs().length,
+      },
       success: true,
     };
   }

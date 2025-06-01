@@ -24,6 +24,9 @@ export interface ReservationResponse {
 }
 
 export interface ReservationLogResponse {
-  data: ReservationLog[];
+  data: {
+    list: ReservationLog[];
+    total: number;
+  };
   success: boolean;
 }

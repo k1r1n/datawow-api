@@ -101,4 +101,10 @@ export class ReservationsService {
 
     return { message: 'Reservation successfully cancelled.' };
   }
+
+  getReservationLogs() {
+    return this.reservationLogs.sort(
+      (a, b) => b.timestamp.getTime() - a.timestamp.getTime(),
+    );
+  }
 }
